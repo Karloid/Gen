@@ -11,6 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//TODO Control Center:
+//TODO change count of mutations;
+//TODO change selection top bots;
+//TODO clear map
+//TODO resume\pause runner
+//TODO start new world - change actions length
+//TODO erase obstacle
+
 public class MyFrame extends JFrame implements UIDelegate {
 
     public static final int INFO_PANEL_HEIGHT = 46;
@@ -77,8 +85,6 @@ public class MyFrame extends JFrame implements UIDelegate {
         }
 
         pathBuffer.set(pos.x, pos.y, bot);
-
-        //TODO save points
     }
 
     @Override

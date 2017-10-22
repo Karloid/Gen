@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO look at fitness calculation
 public class GenWorld implements IGenWorld{
     public static final int N_STEPS = 3000;
 
