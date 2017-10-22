@@ -10,4 +10,6 @@ public interface IGenWorld {
     Point getTargetPoint();
 
     Point getStartPoint();
+
+    void addObstacle(Point point);
 }

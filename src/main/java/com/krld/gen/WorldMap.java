@@ -18,9 +18,45 @@ public class WorldMap {
     }
 
     public int get(Point point) {
-        if (point.x < 0 || point.x >= width || point.y < 0 || point.y >= height) {
+        int x = point.x;
+        int y = point.y;
+
+        return get(x, y);
+    }
+
+    private int getIndex(Point point) {
+        return getIndex(point.x, point.y);
+    }
+
+    private int getIndex(int x, int y) {
+        return x * height + y;
+    }
+
+    public void addObstacleTriple(Point point) {
+
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                safeSet(point.x + x - 1, point.y + y - 1, OBSTACLE);
+            }
+        }
+
+    }
+
+    private void safeSet(int x, int y, int value) {
+        if (isNotInBounds(x, y)) {
+            return;
+        }
+        array[getIndex(x, y)] = value;
+    }
+
+    public int get(int x, int y) {
+        if (isNotInBounds(x, y)) {
             return OBSTACLE;
         }
-        return FREE; //TODO
+        return array[getIndex(x, y)];
+    }
+
+    private boolean isNotInBounds(int x, int y) {
+        return x < 0 || x >= width || y < 0 || y >= height;
     }
 }

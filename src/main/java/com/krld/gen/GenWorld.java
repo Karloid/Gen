@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenWorld implements IGenWorld{
-    public static final int N_STEPS = 2000;
+    public static final int N_STEPS = 3000;
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
@@ -18,7 +18,7 @@ public class GenWorld implements IGenWorld{
     private Point startPoint;
     private WorldMap worldMap;
     private UIDelegate uiDelegate;
-    private int mutationCount = 10;
+    private int mutationCount = 40;
 
     public GenWorld() {
         generateMap();
@@ -148,6 +148,11 @@ public class GenWorld implements IGenWorld{
     @Override
     public Point getStartPoint() {
         return startPoint;
+    }
+
+    @Override
+    public void addObstacle(Point point) {
+        worldMap.addObstacleTriple(point);
     }
 
     public int getMutationCount() {

@@ -4,6 +4,8 @@ import com.krld.gen.models.Bot;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +89,21 @@ public class MyFrame extends JFrame implements UIDelegate {
     private class DrawPane extends JPanel {
         int yOffset = INFO_PANEL_HEIGHT;
 
+        public DrawPane() {
+
+            MouseAdapter ma = new MouseAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    Point point = e.getPoint();
+                    point.y -= yOffset;
+                    world.addObstacle(point);
+                }
+            };
+
+            addMouseListener(ma);
+            addMouseMotionListener(ma);
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
 
@@ -102,6 +119,8 @@ public class MyFrame extends JFrame implements UIDelegate {
             g.setColor(Color.gray);
             g.fillRect(0, yOffset, width, height);
 
+            drawMap(g);
+
 
             //target
             Point target = world.getTargetPoint();
@@ -115,6 +134,18 @@ public class MyFrame extends JFrame implements UIDelegate {
             drawPoint(g, target, Color.red);
             drawPoint(g, start, Color.green);
 
+        }
+
+        private void drawMap(Graphics g) {
+            WorldMap map = world.getMap();
+            g.setColor(Color.darkGray);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (map.get(x, y) == WorldMap.OBSTACLE) {
+                        g.fillRect(x, y + yOffset, 1, 1);
+                    }
+                }
+            }
         }
 
         private void drawPaths(Graphics g) {
