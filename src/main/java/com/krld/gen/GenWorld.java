@@ -18,6 +18,7 @@ public class GenWorld implements IGenWorld{
     private Point startPoint;
     private WorldMap worldMap;
     private UIDelegate uiDelegate;
+    private int mutationCount = 10;
 
     public GenWorld() {
         generateMap();
@@ -45,7 +46,7 @@ public class GenWorld implements IGenWorld{
                     System.out.println("j: " + j + " fitness: " + bestBot.fitness);
 
                     for (int i1 = 0; i1 < childrenPerBot; i1++) {
-                        generation.add(Bot.child(bestBot));
+                        generation.add(Bot.child(bestBot, this));
                     }
                 }
                 uiDelegate.onBestBotsCalculated(bestBots);
@@ -147,5 +148,9 @@ public class GenWorld implements IGenWorld{
     @Override
     public Point getStartPoint() {
         return startPoint;
+    }
+
+    public int getMutationCount() {
+        return mutationCount;
     }
 }

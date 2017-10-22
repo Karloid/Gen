@@ -10,7 +10,7 @@ import java.util.List;
 public class MyFrame extends JFrame implements UIDelegate {
 
     public static final int INFO_PANEL_HEIGHT = 46;
-    public static final int UPDATE_DELTA = 16;
+    public static final int UPDATE_DELTA = 64;
     private final int width;
     private final int height;
     private final DrawPane drawPane;

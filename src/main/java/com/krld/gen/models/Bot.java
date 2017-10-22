@@ -19,11 +19,14 @@ public class Bot {
         return bot;
     }
 
-    public static Bot child(Bot parent) {
+    public static Bot child(Bot parent, GenWorld genWorld) {
         Bot o = new Bot();
         o.actions = new ArrayList<>(parent.actions);
-        int randomActionIndex = (int) (o.actions.size() * Math.random());
-        o.actions.set(randomActionIndex, getRandomAction());
+
+        for (int i = 0; i < genWorld.getMutationCount(); i++) {
+            int randomActionIndex = (int) (o.actions.size() * Math.random());
+            o.actions.set(randomActionIndex, getRandomAction());
+        }
         return o;
     }
 
