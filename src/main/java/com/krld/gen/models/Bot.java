@@ -8,6 +8,7 @@ import java.util.List;
 public class Bot {
 
     public List<Action> actions = new ArrayList<>(GenWorld.N_STEPS);
+    public double fitness;
 
     public static Bot rootBot() {
         Bot bot = new Bot();
@@ -16,6 +17,18 @@ public class Bot {
         }
 
         return bot;
+    }
+
+    public static Bot child(Bot parent) {
+        Bot o = new Bot();
+        o.actions = new ArrayList<>(parent.actions);
+        int randomActionIndex = (int) (o.actions.size() * Math.random());
+        o.actions.set(randomActionIndex, getRandomAction());
+        return o;
+    }
+
+    private static Action getRandomAction() {
+        return Action.values()[(int) (Action.values().length * Math.random())];
     }
 
     public enum Action {
