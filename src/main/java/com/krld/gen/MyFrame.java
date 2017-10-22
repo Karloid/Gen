@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyFrame extends JFrame implements UIDelegate {
 
@@ -49,6 +51,7 @@ public class MyFrame extends JFrame implements UIDelegate {
     public void onStartTest(int generation, List<Bot> bots) {
 
         if (System.currentTimeMillis() - lastUpdate > UPDATE_DELTA) {
+            drawPane.colorMap.clear();
             this.generation = generation;
             this.bots = bots;
 
@@ -88,6 +91,9 @@ public class MyFrame extends JFrame implements UIDelegate {
 
     private class DrawPane extends JPanel {
         int yOffset = INFO_PANEL_HEIGHT;
+
+        Map<Bot, Color> colorMap = new HashMap<>();
+
 
         public DrawPane() {
 
@@ -164,7 +170,15 @@ public class MyFrame extends JFrame implements UIDelegate {
             if (bestBots.contains(bot)) {
                 return Color.red;
             }
-            return Color.black;
+
+            Color color = colorMap.get(bot);
+            if (color == null) {
+                int randomPart = 55;
+                int v = (int) (Math.random() * (255 - randomPart));
+                color = new Color((int) (v + Math.random() * randomPart), (int) (v + Math.random() * randomPart), (int) (v + Math.random() * randomPart));
+                colorMap.put(bot, color);
+            }
+            return color;
         }
 
         private void drawPoint(Graphics g, int x, int y, Color color) {
