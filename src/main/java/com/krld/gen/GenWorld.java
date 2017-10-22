@@ -6,8 +6,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenWorld {
-    public static final int N_STEPS = 1000;
+public class GenWorld implements IGenWorld{
+    public static final int N_STEPS = 2000;
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
@@ -16,10 +16,14 @@ public class GenWorld {
 
     Point targetPoint;
     private Point startPoint;
-    private Map map;
+    private WorldMap worldMap;
+    private UIDelegate uiDelegate;
+
+    public GenWorld() {
+        generateMap();
+    }
 
     public void run() {
-        generateMap();
 
         List<Bot> generation = null;
 
@@ -44,22 +48,25 @@ public class GenWorld {
                         generation.add(Bot.child(bestBot));
                     }
                 }
+                uiDelegate.onBestBotsCalculated(bestBots);
+                
+                //hac for painting
+                for (Bot bestBot : bestBots) {
+                    testBot(bestBot);
+                }
             }
+            uiDelegate.onEndTest(i, generation);
+            uiDelegate.onStartTest(i, generation);
             testGeneration(generation);
+
         }
-        //TODO test generation
-        //TODO pick best
-        //TODO mutate
-        //TODO repeat
-
-
     }
 
     private void generateMap() {
         startPoint = new Point(10, 10);
-        targetPoint = new Point(WIDTH - 10, HEIGHT - 10);
+        targetPoint = new Point(WIDTH - 66, HEIGHT - 66);
 
-        map = new Map(WIDTH, HEIGHT);
+        worldMap = new WorldMap(WIDTH, HEIGHT);
     }
 
     private void testGeneration(List<Bot> generation) {
@@ -90,23 +97,22 @@ public class GenWorld {
                     newPos.y++;
                     break;
                 case GO_LEFT:
-                    newPos.y--;
+                    newPos.x--;
                     break;
                 case STOP:
                     break;
             }
 
-            int m = map.get(newPos);
+            int m = worldMap.get(newPos);
 
-            if (m == Map.FREE) {
+            if (m == WorldMap.FREE) {
                 currentPoint = newPos;
+                uiDelegate.onNewPoint(bot, newPos);
+                if (currentPoint.equals(targetPoint)) {
+                    bot.fitness = i;
+                    break;
+                }
             }
-
-            if (currentPoint.equals(targetPoint)) {
-                bot.fitness = i;
-                break;
-            }
-            //TODO check valid
         }
 
         bot.fitness += getDist(currentPoint, targetPoint);
@@ -122,5 +128,24 @@ public class GenWorld {
             bots.add(Bot.rootBot());
         }
         return bots;
+    }
+
+    public void setUiDelegate(UIDelegate delegate) {
+        this.uiDelegate = delegate;
+    }
+
+    @Override
+    public WorldMap getMap() {
+        return worldMap;
+    }
+
+    @Override
+    public Point getTargetPoint() {
+        return targetPoint;
+    }
+
+    @Override
+    public Point getStartPoint() {
+        return startPoint;
     }
 }

@@ -2,7 +2,7 @@ package com.krld.gen;
 
 import java.awt.*;
 
-public class Map {
+public class WorldMap {
     public static final int OBSTACLE = 1;
     public static final int FREE = 0;
 
@@ -11,7 +11,7 @@ public class Map {
     public final int width;
     public final int height;
 
-    public Map(int width, int height) {
+    public WorldMap(int width, int height) {
         this.width = width;
         this.height = height;
         array = new int[width * height];
