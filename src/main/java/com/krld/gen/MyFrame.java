@@ -16,7 +16,9 @@ import java.util.Map;
 //TODO change selection top bots;
 //TODO clear map
 //TODO resume\pause runner
-//TODO start new world - change actions length
+//TODO start new world
+// - change actions length
+// - start with random actions\with STOP action
 //TODO erase obstacle
 
 public class MyFrame extends JFrame implements UIDelegate {
